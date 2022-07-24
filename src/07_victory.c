@@ -6,4 +6,3 @@ void victory(){
     write(1,victory_message,26);
     write(1,"\n",1);
 }
-

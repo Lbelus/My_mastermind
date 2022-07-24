@@ -1,6 +1,7 @@
 #include "../../My_mastermind/include/header.h"
 
 
+// check if value is not an int
 
 int isnotint(char * param_1){
     

@@ -46,9 +46,6 @@ source : https://textart.sh/topic/brain
 
 #include "include/header.h"
 #include "include/functions.h"
-#include <stddef.h>
-#include <stdio.h>
-
 
 
 
@@ -71,10 +68,13 @@ void my_bzero(void *s, size_t n){
 int main(int argc, char** argv){
 
     int nb_try = 0, i = 0, try = 10 ;
+    int isnotint_result = 0;
     int random_array[4] = {0};
+    char user_input_buffer[256] = {0}; //ample indeed
+    
     srand(clock()); // randomize seed
     randomizer(random_array); // randomize secret string obtained from seed
-    intro();  
+    intro();  // welcome the player
 
 // flag parsing is not included inside a function. would make code unnecessarly difficult and hinder value update because of multiple returned value and I dont see the need for a struct.
 // works to treat n amount of flags in whatever order, was built for my_cat/my_ngram.
@@ -100,39 +100,25 @@ int main(int argc, char** argv){
     while(nb_try < try){
 
         nb_try = round_update(nb_try);
-
-
-        int isnotint_result = 0;
-        char user_input_buffer[SIZE*10] = {0};
-        char escape_catcher[10] = {0};
-
+        isnotint_result = 0;
 
         while(isnotint_result < 1){
-            
-            read(0,user_input_buffer,40);
-            //tcflush(*user_input_buffer, TCIFLUSH);
+            read(0,user_input_buffer,256);
             if(isnotint(user_input_buffer) == 0){
-                            
                 write(1,"wrong input !\n>",15);
-                //write(1,">",1);
-                
             }
             isnotint_result = isnotint(user_input_buffer);
         }
+        
         int count_return = check_input(user_input_buffer, random_array);
         
         if(count_return == SIZE){ 
             victory();
             return EXIT_SUCCESS;
-            }
+        }
 
         write(1,"---\n",4);
         nb_try++;
-
-        //my_bzero(user_input_buffer, my_strlen(user_input_buffer));
-
-        //read(0,escape_catcher,10);
-        fflush(stdin);
     }
 
     return EXIT_FAILURE;
